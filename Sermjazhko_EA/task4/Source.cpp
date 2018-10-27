@@ -8,11 +8,13 @@
 void main()
 {
 	setlocale(LC_ALL, "Rus");
+	
 	int products[5][4];//массив для штрихкодов
 	int i, j, kup=0, shtrih=0, z[4], k, skid[5];//счетчик, переменная для завершения покупки, штрихкод
 	int a=0, b=0;
 	float w=0, p=0, q=0, Sum=0;//для вычисления цены
 	char food[5][N], cen[5], s[5];//массив для продуктов
+	
 	srand(time(NULL));
 
 	strcpy_s(food[0], "Молоко");
@@ -29,33 +31,26 @@ void main()
 
 	for (j = 0; j < 5; j++)//обнуление массива
 		s[j] = 0;
-    for (j = 0; j < 5; j++)//скидка
+        for (j = 0; j < 5; j++)//скидка
 		skid[j] = 1 + rand() % 50;;
 	for (i = 0; i < 5; i++)//ввод штрихкода
-	{
 		for (j = 0; j < 4; j++)
-		{
 			products[i][j] = i+j+1;
-		}
-	}
 	printf("Штрихкоды товаров:\n");
 	for (i = 0; i < 5; i++)//вывод на экран штрихкодов товаров с названиями
 	{
 		for (j = 0; j < 4; j++)
-		{
 			printf("%d", products[i][j]);
-		}
 		printf(" - %s\n", food[i]);
 	}
 	while (shtrih < 3)
 	{
 		printf("Если хотите совершить покупку наберите 1 и введите штрихкод.\nЕсли вы хотите завершить покупку и сформировать чек, наберите 2.\n\n");
 		scanf_s("%d", &shtrih);
-		switch (shtrih)
-		{
+		switch (shtrih) {
 		case 1:
 			printf("Введите штрихкод товара:\n");
-		    scanf_s("%d", &shtrih);
+		        scanf_s("%d", &shtrih);
 			for (k = 3; k >= 0; k--)
 			{
 				z[k] = shtrih % 10;
@@ -66,14 +61,12 @@ void main()
 				for (k = 0; k < 4; k++)
 				{
 				    	a = a + z[k];
-						a = a * 10;
-						b = b + products[i][k];
-						b = b * 10;	
+					a = a * 10;
+					b = b + products[i][k];
+					b = b * 10;	
 				}
 				if (a == b)
-				{
-					break;
-				}
+				        break;
 				else
 				{
 					a = 0;
@@ -86,7 +79,6 @@ void main()
 		case 2:
 			printf("\nЧек\n\n");
 			for (i = 0; i < 5; i++)
-			{
 				if (s[i] != 0)
 				{
 					w = cen[i];
@@ -95,7 +87,6 @@ void main()
 					printf("%s (%dшт.), скидка: %d%%, цена товара: %2.2f руб.\n\n", food[i], s[i], skid[i], p*q*w);
 					Sum = Sum + p * w * q;
 				}
-			}
 			printf("\nОбщая цена за покупку: %2.2f руб.\n", Sum);
 			scanf_s("%d", &i);
 			break;
