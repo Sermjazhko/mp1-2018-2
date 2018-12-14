@@ -8,7 +8,7 @@ double Control(double limitl, double limitr, int& x)
   double a;
   while ((x > limitr) || (x < limitl))
   {
-    printf(" Значение введено неверно, повторите попытку (от %.0f до %.0f):\n ", limitl, limitr);
+    printf("Значение введено неверно, повторите попытку (от %.5f до %.0f):\n ", limitl, limitr);
     scanf_s("%lf", &a);
     x = a;
   }
@@ -62,19 +62,18 @@ double MyAtanh(double x, int& n, double& eps)
 
   if ((x >= 1) || (x <= -1))
   {
-    x = NULL;
-    return x;
+    if (x == 1)
+      return INFINITY;
+    if (x == -1)
+      return -INFINITY;
+    return -NAN;
   }
   for (i = 2; i <= n; i++)
   {
-    myatanh += (myatanh * x * x) / j - buffer;
-    buffer = 0;
+    myatanh += (myatanh * x * x) / j;
     j = j + 2;
     if (fabs(atanh(x) - myatanh) < eps)
-    {
-      printf("end");
       break;
-    }
     number++;
   }
   n = number + 1;
@@ -102,9 +101,9 @@ double MyExp(double x, int& n, double& eps)
 
 int main(void)
 {
-  double x = 0, eps = 0;
+  double x = 0, eps;
   double myfun = 0, fun = 0;
-  int n = 0, numberfun, regime, i, l;
+  int n = 0, numberfun, regime, i, l = 1;
 
   double(*pf[4])(double, int&, double&);
   double(*p[4])(double);
@@ -130,8 +129,9 @@ int main(void)
     Control(0, 3, numberfun);
     printf("Введите значение х:\n");
     scanf_s("%lf", &x);
-    printf("Введите точность, например: 0,000001:\n");
+    printf("Введите точность >=0,000001:\n");
     scanf_s("%lf", &eps);
+    Control(0.00001, 1, n);
     printf("Введите количество слагаемых, которые хотите вычислить (от 1 до 1000):\n");
     scanf_s("%i", &n);
     Control(1, 1000, n);
@@ -155,11 +155,16 @@ int main(void)
 
     printf("№ Эталонное значение Вычисленная оценка Разница\n");
 
-    for (i = 1, l = 1; i <= n; i++, l++)
+    for (i = 1, l; i <= n; i++, l++)
     {
+      eps = 0;
       fun = (*p[numberfun])(x);
       myfun = (*pf[numberfun])(x, l, eps);
-      printf("%i %.5f %.5f %.5f\n", i, fun, myfun, eps);
+      if (i < 10)
+        printf("%i    %.5f   %.5f   %.5f\n", i, fun, myfun, eps);
+      else
+        printf("%i   %.5f   %.5f   %.5f\n", i, fun, myfun, eps);
+      l = i;
     }
     scanf_s("%i", &n);
     break;
