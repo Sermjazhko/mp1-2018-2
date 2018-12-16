@@ -70,10 +70,10 @@ double MyAtanh(double x, int& n, double& eps)
   }
   for (i = 2; i <= n; i++)
   {
-    myatanh += (myatanh * x * x) * (j-2)/ j;
+    myatanh = (myatanh * x * x) * (j-2) / j;
+    buffer = buffer + myatanh;
     j = j + 2;
-     buffer = buffer + myatanh;
-    if (fabs(atanh(x) - myatanh) < eps)
+    if (fabs(atanh(x) - buffer) < eps)
       break;
     number++;
   }
@@ -81,6 +81,7 @@ double MyAtanh(double x, int& n, double& eps)
   eps = fabs(atanh(x) - buffer);
   return buffer;
 }
+
 
 double MyExp(double x, int& n, double& eps)
 {
