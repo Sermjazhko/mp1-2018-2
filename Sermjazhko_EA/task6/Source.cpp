@@ -70,7 +70,7 @@ double MyAtanh(double x, int& n, double& eps)
   }
   for (i = 2; i <= n; i++)
   {
-    myatanh += (myatanh * x * x) / j;
+    myatanh += (myatanh * x * x) * (j-2)/ j;
     j = j + 2;
      buffer = buffer + myatanh;
     if (fabs(atanh(x) - myatanh) < eps)
