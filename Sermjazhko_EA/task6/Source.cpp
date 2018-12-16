@@ -72,13 +72,14 @@ double MyAtanh(double x, int& n, double& eps)
   {
     myatanh += (myatanh * x * x) / j;
     j = j + 2;
+     buffer = buffer + myatanh;
     if (fabs(atanh(x) - myatanh) < eps)
       break;
     number++;
   }
   n = number + 1;
-  eps = fabs(atanh(x) - myatanh);
-  return myatanh;
+  eps = fabs(atanh(x) - buffer);
+  return buffer;
 }
 
 double MyExp(double x, int& n, double& eps)
