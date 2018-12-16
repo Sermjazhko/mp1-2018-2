@@ -3,13 +3,13 @@
 #include <locale.h> 
 #include <math.h> 
 
-double Control(double limitl, double limitr, int& x)
+int Control(int limitl, int limitr, int& x)
 {
-  double a;
+  int a;
   while ((x > limitr) || (x < limitl))
   {
-    printf("Çíà÷åíèå ââåäåíî íåâåðíî, ïîâòîðèòå ïîïûòêó (îò %.0f äî %.0f):\n ", limitl, limitr);
-    scanf_s("%lf", &a);
+    printf("Значение введено неверно, повторите попытку (от %i до %i):\n", limitl, limitr);
+    scanf_s("%i", &a);
     x = a;
   }
   return x;
@@ -118,41 +118,41 @@ int main(void)
   p[2] = cos;
   p[3] = atanh;
 
-  printf("Âûáåðèòå ðåæèì:\n 1 - Îäíîêðàòíûé ðàñ÷åò ôóíêöèè â çàäàííîé òî÷êå\n 2 - Ñåðèéíûé ýêñïåðèìåíò\n");
+  printf("Выберите режим:\n 1 - Однократный расчет функции в заданной точке\n 2 - Серийный эксперимент\n");
   scanf_s("%i", &regime);
   Control(1, 2, regime);
   switch (regime)
   {
   case 1:
-    printf("Âûáåðèòå íîìåð ôóíêöèè\n0 - exp(x)\n1 - sin(x)\n2 - cos(x)\n3 - atanh(x)\n");
+    printf("Выберите номер функции\n0 - exp(x)\n1 - sin(x)\n2 - cos(x)\n3 - atanh(x)\n");
     scanf_s("%i", &numberfun);
     Control(0, 3, numberfun);
-    printf("Ââåäèòå çíà÷åíèå õ:\n");
+    printf("Введите значение х:\n");
     scanf_s("%lf", &x);
-    printf("Ââåäèòå òî÷íîñòü >=0,000001:\n");
+    printf("Введите точность, например: 0,000001\n");
     scanf_s("%lf", &eps);
-    printf("Ââåäèòå êîëè÷åñòâî ñëàãàåìûõ, êîòîðûå õîòèòå âû÷èñëèòü (îò 1 äî 1000):\n");
+    printf("Введите количество слагаемых, которые хотите вычислить (от 1 до 1000):\n");
     scanf_s("%i", &n);
     Control(1, 1000, n);
     fun = (*p[numberfun])(x);
-    printf("Ýòàëîííîå çíà÷åíèå: %f\n", fun);
+    printf("Эталонное значение: %f\n", fun);
     myfun = (*pf[numberfun])(x, n, eps);
-    printf("Âû÷èñëåííàÿ îöåíêà: %f\nÐàçíèöà ìåæäó îöåíêîé è ýòàëîííûì çíà÷åíèåì: %f\nÊîëè÷åñòâî ñëàãàåìûõ, êîòîðîå áûëî âû÷èñëåíî: %i\n", myfun, eps, n);
+    printf("Вычисленная оценка: %f\nРазница между оценкой и эталонным значением: %f\nКоличество слагаемых, которое было вычислено: %i\n", myfun, eps, n);
 
     getchar();
     getchar();
     break;
   case 2:
-    printf("Âûáåðèòå íîìåð ôóíêöèè\n0 - exp(x)\n1 - sin(x)\n2 - cos(x)\n3 - atanh(x)\n");
+    printf("Выберите номер функции\n0 - exp(x)\n1 - sin(x)\n2 - cos(x)\n3 - atanh(x)\n");
     scanf_s("%i", &numberfun);
     Control(0, 3, numberfun);
-    printf("Ââåäèòå çíà÷åíèå õ:\n");
+    printf("Введите значение х:\n");
     scanf_s("%lf", &x);
-    printf("Çàäàéòå ÷èñëî ýêñïåðèìåíòîâ (îò 1 äî 25):\n");
+    printf("Задайте число экспериментов (от 1 до 25):\n");
     scanf_s("%i", &n);
     Control(1, 25, n);
 
-    printf("¹ Ýòàëîííîå çíà÷åíèå Âû÷èñëåííàÿ îöåíêà Ðàçíèöà\n");
+    printf("№ Эталонное значение Вычисленная оценка Разница\n");
 
     for (i = 1, l; i <= n; i++, l++)
     {
